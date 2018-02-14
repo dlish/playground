@@ -5,7 +5,7 @@ def image            = "dlish27/playground"
 def nodeVersion      = '9.5.0'
 
 node('docker') {
-    def dockerRunNodeCmd = "docker run --rm -v ${env.WORKSPACE}:/usr/src -w /usr/src/ node:${nodeVersion}"
+    def dockerRunNodeCmd = "docker run --rm --user=node -v ${env.WORKSPACE}:/usr/src -w /usr/src/ node:${nodeVersion}"
     def dockerComposeE2e = "docker-compose -f docker-compose-e2e.yml"
 
     stage('checkout') {
