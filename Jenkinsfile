@@ -13,7 +13,7 @@ node('docker') {
     }
 
     stage('yarn install') {
-        sh "$dockerRunNodeCmd yarn install"
+        sh "$dockerRunNodeCmd bash -c 'yarn install && yarn build --production'"
     }
 
     stage('unit tests') {
