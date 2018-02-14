@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  e2e:
+    build:
+      context: .
+      dockerfile: Dockerfile.e2e
+    volumes:
+      - ./:/usr/src/
+    working_dir: "/usr/src/"
+    depends_on:
+      - "nginx"
+      - "chrome"
+      - "hub"
+    command: ["./wait-for-it.sh", "hub:4444", "--", "yarn", "e2e-docker"]
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./dist:/usr/share/nginx/html
+    ports:
+      - 80:80
+
+  chrome:
+    image: selenium/node-chrome:3.9.1-actinium
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - hub
+    environment:
+      HUB_HOST: hub
+
+  hub:
+    image: selenium/hub:3.9.1-actinium
+    ports:
+      - "4444:4444"
