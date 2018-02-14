@@ -1,10 +1,8 @@
 FROM node:9.5.0 AS build
 
-RUN npm install -g yarn 
 COPY . /usr/src/
 WORKDIR /usr/src/
 RUN yarn install
-RUN yarn unit 
 RUN yarn run build --production
 
 
